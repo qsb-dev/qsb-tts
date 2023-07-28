@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyTitle>QSB TTS</AssemblyTitle>
+    <Product>QSB TTS</Product>
+    <Description>TTS addon for Quantum Space Buddies</Description>
+    <OutputPath Condition="Exists('$(OwmlDir)')">$(OwmlDir)\Mods\_nebula.QSBTTS</OutputPath>
+    <NoWarn>CS1998;CS0649</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OuterWildsGameLibs" Version="1.1.13.456" IncludeAssets="compile" />
+    <PackageReference Include="OWML" Version="2.9.3" IncludeAssets="compile" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="QSB">
+      <HintPath>..\..\..\..\AppData\Roaming\OuterWildsModManager\OWML\Mods\Raicuparta.QuantumSpaceBuddies\QSB.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="manifest.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,29 @@
+<Project>
+
+  <PropertyGroup>
+    <DevEnvLoc>$(MSBuildThisFileDirectory)DevEnv.targets</DevEnvLoc>
+  </PropertyGroup>
+  <Import Project="$(DevEnvLoc)" Condition="Exists('$(DevEnvLoc)')" />
+
+  <PropertyGroup Label="Common Properties">
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>default</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <Company>Henry Pointer</Company>
+    <Copyright>Copyright © Henry Pointer 2023</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Default Locations" Condition="!Exists('$(DevEnvLoc)')">
+    <OwmlDir>$(AppData)\OuterWildsModManager\OWML</OwmlDir>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+</Project>

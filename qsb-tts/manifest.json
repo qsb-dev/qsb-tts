@@ -1,0 +1,9 @@
+{
+  "filename": "QSBTTS.dll",
+  "author": "_nebula",
+  "name": "QSB TTS",
+  "uniqueName": "_nebula.QSBTTS",
+  "version": "0.1.0",
+  "owmlVersion": "2.9.3",
+  "dependencies": [ "Raicuparta.QuantumSpaceBuddies" ]
+}
