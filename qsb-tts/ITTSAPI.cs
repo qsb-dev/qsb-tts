@@ -1,6 +1,4 @@
-﻿namespace QSBTTS;
-
-public interface ITTSAPI
+﻿public interface ITTSAPI
 {
 	void PlayTTS(string text, TTSVoice voice);
 
