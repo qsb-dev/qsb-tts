@@ -10,6 +10,6 @@ public class TTSAPI : ITTSAPI
 {
 	public void PlayTTS(string text, ITTSAPI.TTSVoice voice)
 	{
-
+		Core.SendToTTS(text, voice);
 	}
 }

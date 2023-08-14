@@ -14,7 +14,9 @@ namespace QSBTTS
 		private static StreamReader _reader;
 		private static NamedPipeClientStream _client;
 
-	    public void Start()
+		public override object GetApi() => new TTSAPI();
+
+		public void Start()
 	    {
 		    QSBCore.RegisterNotRequiredForAllPlayers(this);
 
