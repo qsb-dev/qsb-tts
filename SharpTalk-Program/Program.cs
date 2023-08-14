@@ -1,4 +1,5 @@
-﻿using SharpTalk;
+﻿using Newtonsoft.Json;
+using SharpTalk;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,51 +13,40 @@ using System.Threading.Tasks;
 namespace SharpTalk_Program;
 internal class Program
 {
-	private static Socket _socket;
-	private static TcpListener _server;
-	private static int _port;
+	private static NamedPipeServerStream _server;
 
 	static void Main(string[] args)
 	{
-		StartServer();
+		Console.WriteLine("Creating server and waiting for connection....");
+		_server = new NamedPipeServerStream("QSBTTS");
+		_server.WaitForConnection();
+		Console.WriteLine("Connected to mod!");
+		StreamReader reader = new StreamReader(_server);
+		StreamWriter writer = new StreamWriter(_server);
+		while (true)
+		{
+			var line = reader.ReadLine();
+			ProcessMessage(line);
+		}
 	}
 
-	public static void StartServer()
+	private static void ProcessMessage(string json)
 	{
-		var host = Dns.GetHostEntry("localhost");
-		var ipAddress = host.AddressList[0];
-		var localEndPoint = new IPEndPoint(ipAddress, 11000);
+		Console.WriteLine($"Received \"{json}\"");
 
-		try
+		var data = JsonConvert.DeserializeObject<TTSData>(json);
+
+		var engine = new FonixTalkEngine
 		{
-			var listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-			listener.Bind(localEndPoint);
-			listener.Listen(10);
+			Voice = (TtsVoice)data.voice
+		};
 
-			Console.WriteLine("Waiting for a connection...");
-			_socket = listener.Accept();
-
-			string data = null;
-			byte[] bytes = null;
-
-			while (true)
-			{
-				bytes = new byte[1024];
-
-				var iRx = _socket.Receive(bytes);
-				var chars = new char[iRx];
-				var d = Encoding.UTF8.GetDecoder();
-				d.GetChars(bytes, 0, iRx, chars, 0);
-				var recv = new string(chars);
-
-				var engine = new FonixTalkEngine();
-				engine.Speak(recv);
-				Console.WriteLine(recv);
-			}
-		}
-		catch (Exception e)
-		{
-			Console.WriteLine(e.ToString());
-		}
+		engine.Speak(data.text);
 	}
+}
+
+public class TTSData
+{
+	public string text;
+	public uint voice;
 }

@@ -21,7 +21,19 @@ internal class ChatMessagePatches : QSBPatch
 		var prefixLength = $"{playerName}: ".Length;
 		message = message.Substring(prefixLength);
 
-		var bytes = Encoding.UTF8.GetBytes(message);
-		Core.Socket.Send(bytes);
+		message = ProcessMessage(message);
+
+		Core.SendToTTS(message, ITTSAPI.TTSVoice.Paul);
+	}
+
+	private static string ProcessMessage(string message)
+	{
+		// do some stuff here to make OW's words be pronounced properly.
+		// this should be done by creating a custom dictionary, but
+		// i have no idea how to do that.
+
+		message = message.Replace(" nomai ", " no-my ");
+
+		return message;
 	}
 }
