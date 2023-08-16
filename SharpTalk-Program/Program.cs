@@ -1,31 +1,28 @@
 ﻿using Newtonsoft.Json;
 using SharpTalk;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharpTalk_Program;
 internal class Program
 {
 	private static NamedPipeServerStream _server;
+	private static StreamReader _reader;
 
 	static void Main(string[] args)
 	{
+		Directory.SetCurrentDirectory(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location));
+
 		Console.WriteLine("Creating server and waiting for connection....");
-		_server = new NamedPipeServerStream("QSBTTS");
+		_server = new NamedPipeServerStream("QSBTTS", PipeDirection.InOut, 1, PipeTransmissionMode.Message);
 		_server.WaitForConnection();
 		Console.WriteLine("Connected to mod!");
-		StreamReader reader = new StreamReader(_server);
-		StreamWriter writer = new StreamWriter(_server);
+		_reader = new StreamReader(_server);
+
 		while (true)
 		{
-			var line = reader.ReadLine();
+			var line = _reader.ReadLine();
 			ProcessMessage(line);
 		}
 	}
@@ -41,7 +38,7 @@ internal class Program
 			Voice = (TtsVoice)data.voice
 		};
 
-		engine.Speak(data.text);
+		engine.SpeakToWavFile($"audiofiles/{Guid.NewGuid()}.wav", data.text);
 	}
 }
 

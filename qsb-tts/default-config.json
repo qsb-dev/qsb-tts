@@ -1,0 +1,22 @@
+{
+  "$schema": "https://raw.githubusercontent.com/ow-mods/owml/master/schemas/config_schema.json",
+  "enabled": true,
+  "settings": {
+    "TTS Voice": {
+      "type": "selector",
+      "value": "Paul",
+      "options": [
+        "Paul",
+        "Betty",
+        "Harry",
+        "Frank",
+        "Dennis",
+        "Kit",
+        "Ursula",
+        "Rita",
+        "Wendy"
+      ],
+      "tooltip": "The voice that reads out the chat messages."
+    }
+  }
+}

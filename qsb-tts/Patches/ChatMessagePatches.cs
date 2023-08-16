@@ -23,7 +23,7 @@ internal class ChatMessagePatches : QSBPatch
 
 		message = ProcessMessage(message);
 
-		Core.SendToTTS(message, ITTSAPI.TTSVoice.Paul);
+		Core.SendToTTS(message, Core.Voice);
 	}
 
 	private static string ProcessMessage(string message)
